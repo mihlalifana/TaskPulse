@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'stylesss.css' %}">
+
+<div class="calendar-container">
+ <div class="card-header">📅 Assignment Calendar-Upcoming deadlines</div>
+   <div class="card-content">
+    
+     <table class="calendar-table">
+        <thead>
+            <tr>
+                <th>📌 Title</th>
+                <th>📅 Due Date</th>
+                <th>⏰ Reminder</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+            <tr class=" 
+                {% if assignment.is_overdue %}
+                    overdue
+                {% elif assignment.is_completed_before_due %}
+                    completed-before-due
+                {% elif assignment.is_completed_after_due %}
+                    completed-after-due
+                {% elif assignment.is_due_soon %}
+                    due-soon
+                {% else %}
+                    normal
+                {% endif %}
+            ">
+                <td>{{ assignment.title }}</td>
+                <td>{{ assignment.due_date }}</td>
+                <td>
+                    {{ assignment.reminder_text }}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" style="text-align: center;">No assignments found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="calendar-actions">
+        <a href="{% url 'task_list' %}" class="btn">← Back to Tasks</a>
+        <a href="{% url 'add_task' %}" class="btn">➕ Add Task</a>
+    </div>
+</div>
+</div>
+
+{% endblock %}

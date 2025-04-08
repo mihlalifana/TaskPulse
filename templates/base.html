@@ -1,0 +1,50 @@
+{% load static %}
+
+<head>
+    <title>{% block title %}Assignment Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'stylesss.css' %}">
+</head>
+<body>
+
+    <!-- ✅ Navbar added here -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- Name of the project on the left -->
+            <span class="project-name">TASKPULSE</span>
+        </div>
+
+        <div class="nav-center">
+            <!-- Links in the middle -->
+            <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+            <a href="{% url 'add_task' %}" class="{% if request.resolver_match.url_name == 'add_task' %}active{% endif %}">Add Task</a>
+           
+            <a href="{% url 'calendar' %}" class="{% if request.resolver_match.url_name == 'calendar' %}active{% endif %}">Calendar</a>
+
+            <a href="{% url 'mood_checkin' %}" class="{% if request.resolver_match.url_name == 'mood_checkin' %}active{% endif %}">Mood Check-In</a>
+            
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="nav-right">
+            <!-- Username and logout on the right -->
+            <span style="color: #eff1f3;">Hi, {{ user.username }}</span>
+            <form action="{% url 'logout' %}" method="post" class="inline-logout" onsubmit="return confirm('Log out?');">
+                {% csrf_token %}
+                <button type="submit" class="logout-link">Logout</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="nav-right">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+        {% endif %}
+    </nav>
+
+    <!-- Main content block -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>

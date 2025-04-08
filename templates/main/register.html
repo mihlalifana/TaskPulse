@@ -1,0 +1,50 @@
+
+{% load static %}
+
+<head><link rel="stylesheet" href="{% static 'stylesss.css' %}"></head>
+{% block content %}
+
+
+
+<div class="auth-container">
+    <div class="register-section">
+        <h2>Don't have an account?</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="text" name="student_number" placeholder="Student Number" required>
+            
+            <div class="password-container">
+                <input type="password" id="password1" name="password1" placeholder="Password" required>
+                <span class="toggle-password" onclick="togglePassword('password1')">👁</span>
+            </div>
+            
+            <div class="password-container">
+                <input type="password" id="password2" name="password2" placeholder="Confirm Password" required>
+                <span class="toggle-password" onclick="togglePassword('password2')">👁</span>
+            </div>
+
+            {% if form.errors %}
+                <div class="error-messages">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p class="error">{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button type="submit">Create Account</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    </div>
+</div>
+
+<script>
+    function togglePassword(fieldId) {
+        const input = document.getElementById(fieldId);
+        input.type = input.type === "password" ? "text" : "password";
+    }
+    </script>
+{% endblock %}

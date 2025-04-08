@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'stylesss.css' %}">
+    <title>Assignment Management Dashboard</title>
+</head>
+
+<div class="home-container">
+
+    <!-- Header -->
+    <div class="card-header">📚 Task Management Dashboard</div>
+
+    <!-- Intro Section -->
+    <div class="dashboard-intro-container">
+        <div class="dashboard-intro-text">
+            <p class="dashboard-intro">
+                This platform is designed to help students stay organized and in control of their academic workload. From here, 
+                you can easily view all your tasks, add new assignments, check upcoming deadlines using the calendar, 
+                and monitor your overall progress throughout the semester.
+            </p>
+        </div>
+        <div class="dashboard-intro-image">
+            <img src="{% static 'images/tm.jpg' %}" alt="Dashboard Illustration" />
+        </div>
+    </div>
+
+    <!-- Navigation Grid: 2 items per row -->
+    <div class="dashboard-grid two-per-row">
+        
+
+        <div class="dashboard-item">
+            <div class="card-header">➕ Add Task</div>
+            <div class="card-content">
+                <p>Add new task and view in just a few clicks.</p>
+                <a href="{% url 'add_task' %}" class="btn">Add Task</a>
+            </div>
+        </div>
+
+        <div class="dashboard-item">
+            <div class="card-header">📅 Calendar</div>
+            <div class="card-content">
+                <p>Stay organized by viewing your tasks and deadlines in a calendar format. Easily track which assignments are due soon, overdue, or already completed, and get timely reminders to help you stay on top of your academic responsibilities</p>
+                <a href="{% url 'calendar' %}" class="btn">View Calendar</a>
+            </div>
+        </div>
+
+        
+
+        <div class="dashboard-item">
+            <div class="card-header">🧠Mood Check-In</div>
+            <div class="card-content">
+                <p>Track your mood and emotional well-being as you progress through your tasks.</p>
+                <a href="{% url 'mood_checkin' %}" class="btn">Mood Check-In</a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+{% endblock %}

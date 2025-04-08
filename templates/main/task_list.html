@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'stylesss.css' %}">
+
+<div class="task-container">
+    <div class="card-header">📋 My Tasks</div>
+    <div class="card-content">
+        {% if assignments %}
+            <ul>
+                {% for assignment in assignments %}
+                    <li>
+                        <div class="task-info">
+                            <strong>{{ assignment.title }}</strong>  
+                            <br>
+                            <small>Due: {{ assignment.due_date }}</small>
+                            <span class="status {% if assignment.completed %}completed{% else %}pending{% endif %}">
+                                {% if assignment.completed %}
+                                    ✅ Completed
+                                {% else %}
+                                    ⏳ Pending
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="actions">
+                            <a href="{% url 'edit_task' assignment.id %}" class="btn edit-btn">Edit</a>
+                            <a href="{% url 'delete_task' assignment.id %}" class="btn delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="text-align: center; color: #777;">No tasks added yet.</p>
+        {% endif %}
+    </div>
+    
+    <!-- Navigation Buttons at the Bottom -->
+    <div class="navigation-buttons" style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'home' %}" class="btn home-btn">Back Home</a>
+        <a href="{% url 'add_task' %}" class="btn add-task-btn">Back to Add Task</a>
+    </div>
+</div>
+
+{% endblock %}

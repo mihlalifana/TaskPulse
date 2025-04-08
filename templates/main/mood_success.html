@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'stylesss.css' %}">
+<div class="card-container">
+  <div class="card-header">🧠 Mood Check-In Summary</div>
+  <div class="card-content">
+    <p><strong>Mood:</strong> {{ mood }}</p>
+    {% if note %}
+      <p><strong>Note:</strong> {{ note }}</p>
+    {% endif %}
+    <p><strong>Motivation:</strong> {{ message }}</p>
+  </div>
+  <div class="calendar-actions">
+    <a href="{% url 'mood_checkin' %}" class="btn">Check-In Again</a>
+    <a href="{% url 'home' %}" class="btn">← Back to Home</a>
+  </div>
+</div>
+{% endblock %}

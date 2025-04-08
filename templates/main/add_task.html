@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'stylesss.css' %}">
+
+<div class="task-container">
+    <div class="card-header">📝 Add New Assignment</div>
+    <div class="card-content">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-content">
+                <label for="{{ form.title.id_for_label }}">Title:</label>
+                {{ form.title }}
+            
+                <label for="{{ form.description.id_for_label }}">Description:</label>
+                {{ form.description }}
+            
+                <label for="{{ form.due_date.id_for_label }}">Due date:</label>
+                {{ form.due_date }}
+            
+                <div class="checkbox-group">
+                    <label for="{{ form.completed.id_for_label }}" class="checkbox-label">Completed:</label>
+                    {{ form.completed }}
+                </div>
+            
+                <label for="{{ form.reminder_date.id_for_label }}">Reminder date:</label>
+                {{ form.reminder_date }}
+            </div>
+            
+            <!-- Navigation buttons -->
+            <div class="navigation-buttons">
+                <button type="submit" class="btn">Add Task</button>
+                <a href="{% url 'home' %}" class="btn">Back to Home</a>
+                <a href="{% url 'task_list' %}" class="btn">View Tasks</a>
+                <a href="{% url 'progress' %}" class="btn">View Progress</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

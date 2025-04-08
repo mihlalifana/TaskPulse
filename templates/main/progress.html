@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <title>Task Progress</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{% static 'stylesss.css' %}">
+</head>
+
+<div class="progress-container">
+    <div class="card-header">📊 Task Progress Overview</div>
+    <div class="card-content">
+
+        <!-- Chart -->
+        <div >
+           <style>
+                #taskProgressChart {
+                    width: 300px !important;  /* Force width to 10px */
+                    height: 300px !important; /* Force height to 10px */
+                }
+            </style>
+            <canvas id="taskProgressChart"></canvas>
+        </div>
+
+        <!-- Task List -->
+        <div class="task-details">
+            <h3 style="margin-bottom: 10px; color: #6b21a8;">Task Status</h3>
+            {% if completed_tasks %}
+                <ul>
+                    {% for task in completed_tasks %}
+                        <li>
+                            <strong>{{ task.title }}</strong> - 
+                            {% if task.completed %}
+                                <span class="status completed">Completed</span>
+                            {% else %}
+                                <span class="status pending">In Progress</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p style="text-align: center; color: #999;">No tasks found.</p>
+            {% endif %}
+        </div>
+
+        <!-- Stats -->
+        <div class="completion-stats">
+            <h3>✅ Completion Rate: {{ completion_rate }}%</h3>
+            <h4>Total Tasks: 
+                <span style="color: #16a34a;">{{ completed_count }} Completed</span>, 
+                <span style="color: #dc2626;">{{ pending_count }} Pending</span>
+            </h4>
+        </div>
+
+        <!-- Motivational Tip -->
+        <div class="motivational-tip" style="margin-top: 25px; background: #fdf4ff; padding: 16px; border-left: 6px solid #c084fc; border-radius: 12px;">
+            <p><strong>🌟 Motivational Tip:</strong> {{ motivational_tip }}</p>
+        </div>
+
+        <div class="navigation-buttons" style="margin-top: 30px;">
+            <a href="{% url 'home' %}" class="btn">← Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var chartData = JSON.parse('{{ chart_data|escapejs }}');
+    var completedCount = chartData.completed_count;
+    var pendingCount = chartData.pending_count;
+
+    const ctx = document.getElementById('taskProgressChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Completed', 'Pending'],
+            datasets: [{
+                label: 'Tasks',
+                data: [completedCount, pendingCount],
+                backgroundColor: ['#10b981', '#ef4444'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: ${context.raw}`;
+                        }
+                    },
+                    bodyFont: { size: 16 }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

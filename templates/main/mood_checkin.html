@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'stylesss.css' %}">
+
+<div class="form-container">
+    <div class="card-header">📝 Mood Check-In</div>
+    <div class="card-content">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-content">
+                <!-- Loop through all visible fields -->
+                {% for field in form.visible_fields %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small>{{ field.help_text }}</small>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="navigation-buttons">
+                <button type="submit" class="btn">Submit</button>
+                {% if back_to_home %}<a href="{% url 'home' %}" class="btn">Back to Home</a>{% endif %}
+                {% if back_to_list %}<a href="{% url back_to_list %}" class="btn">View Tasks</a>{% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

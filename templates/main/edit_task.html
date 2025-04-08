@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'stylesss.css' %}">
+
+<div class="task-container">
+    <div class="card-header">✏️ Edit Task</div>
+    <div class="card-content">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-container">
+                {{ form.as_p }}
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn save-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Navigation Buttons at the Bottom -->
+    
+</div>
+
+{% endblock %}
